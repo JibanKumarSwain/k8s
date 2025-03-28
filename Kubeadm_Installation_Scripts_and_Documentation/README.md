@@ -5,7 +5,7 @@ This guide outlines the steps needed to set up a Kubernetes cluster using `kubea
 ## Prerequisites
 
 - Ubuntu OS (Xenial or later)
-- `sudo` privileges
+- `sudo` privileges 
 - Internet access
 - t2.medium instance type or higher
 
