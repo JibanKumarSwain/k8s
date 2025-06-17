@@ -93,20 +93,19 @@ This guide outlines the steps needed to set up a Kubernetes cluster using `kubea
 4. **Install Containerd**:
     ```bash
     sudo apt-get update
-    sudo apt-get install -y ca-certificates curl
-    sudo install -m 0755 -d /etc/apt/keyrings
-    sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
-    sudo chmod a+r /etc/apt/keyrings/docker.asc
+    sudo apt-get install -y ca-certificates curl gnupg lsb-release
+    sudo mkdir -p /etc/apt/keyrings
+    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
 
-    echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu $(. /etc/os-release && echo \"$VERSION_CODENAME\") stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+    echo \
+   "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] \
+   https://download.docker.com/linux/ubuntu \
+   $(lsb_release -cs) stable" | \
+   sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 
     sudo apt-get update
-    sudo apt-get install -y containerd.io
-
-    containerd config default | sed -e 's/SystemdCgroup = false/SystemdCgroup = true/' -e 's/sandbox_image = "registry.k8s.io\/pause:3.6"/sandbox_image = "registry.k8s.io\/pause:3.9"/' | sudo tee /etc/containerd/config.toml
-
-    sudo systemctl restart containerd
-    sudo systemctl status containerd
+    sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
     ```
 
 5. **Install Kubernetes Components**:
