@@ -90,7 +90,7 @@ This guide outlines the steps needed to set up a Kubernetes cluster using `kubea
     lsmod | grep overlay
     ```
 
-4. **Install Containerd**:
+4. **Install Docker**:
     ```bash
     sudo apt-get update
     sudo apt-get install -y ca-certificates curl gnupg lsb-release
